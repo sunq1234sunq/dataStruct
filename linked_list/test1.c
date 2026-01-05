@@ -45,11 +45,27 @@ void insertAtTail(Node *Tail, Elemtype e){
     if (Tail == NULL) return;
     
     Node *newNode = (Node*)malloc(sizeof(Node));
-
     newNode -> data = e;
     newNode -> next = NULL;
     Tail -> next = newNode;
+}
 
+int insertAtPos(Node *L, int pos, Elemtype e){
+    // 先找到插入的位置
+    Node *P = L;
+    int i = 0;
+    while(i< pos-1){
+        P = P -> next;
+        i++;
+        if(P == NULL){
+            return 0;
+        }
+    }
+
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    newNode -> data = e;
+    newNode -> next = P -> next;
+    P -> next = newNode;
 }
 
 int main(){
@@ -61,6 +77,8 @@ int main(){
 
     Node *Tail = getTail(list);
     insertAtTail(Tail, 40);
+
+    insertAtPos(list, 2, 25);
     printList(list);
 
     return 0;
