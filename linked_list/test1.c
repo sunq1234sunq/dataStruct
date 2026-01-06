@@ -66,6 +66,42 @@ int insertAtPos(Node *L, int pos, Elemtype e){
     newNode -> data = e;
     newNode -> next = P -> next;
     P -> next = newNode;
+    return 1;
+}
+
+int deleteNode(Node*L, int pos){
+    Node *P = L;
+    int i = 0;
+    while(i < pos-1){
+        P = P -> next;
+        i++;
+        if(P == NULL){
+            return 0;
+        }
+    }
+    // P现在指向要删除的前驱node
+    Node *toDelete = P -> next; // delete指向要删除的node，这个node->next存放了下一个node的地址
+    P -> next = toDelete -> next;
+    free(toDelete); // 此时被删除节点相当于被孤立出来了，堆内存需要释放
+    return 1;
+}
+
+int releaseList(Node *L){
+    // 链表默认不删除头节点
+    // 需要两个指针，先保存头节点的next指针。
+    // Node *current = L;
+    // current = L -> next; // 冗余了，直接让current指向删除的节点就行 
+    Node *current = L -> next;
+    Node *q;
+
+    // 判断是不是到尾指针了
+    while (current != NULL)
+    {
+        q = current -> next;
+        free(current);
+        current = q;
+    }
+    L -> next = NULL;
 }
 
 int main(){
@@ -77,8 +113,14 @@ int main(){
 
     Node *Tail = getTail(list);
     insertAtTail(Tail, 40);
+    printList(list);
 
     insertAtPos(list, 2, 25);
+    printList(list);
+    deleteNode(list, 3);
+    printList(list);
+
+    releaseList(list);
     printList(list);
 
     return 0;
