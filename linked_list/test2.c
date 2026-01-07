@@ -38,3 +38,23 @@ int findK(Node *L, int pos){
 }
 
 
+// 上面的时间复杂度是O(2n), 使用快慢指针，快指针先走pos，慢指针再走。快指针到达末尾慢指针正好到倒数第pos
+
+int findK2(Node *L, int pos){
+    Node* fast = L;
+    Node* slow = L;
+
+    for (int i = 0; i < pos; i++)
+    {
+        if(fast == NULL) {return 0;}
+        fast = fast -> next;
+    }
+
+    while(fast != NULL){
+        fast = fast -> next;
+        slow = slow -> next;
+    }
+
+    return slow -> data;
+    
+}
